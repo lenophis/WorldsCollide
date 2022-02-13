@@ -9,11 +9,12 @@ def AddStat(stat_address):
         asm.LDA(stat_address, asm.ABS_Y),
         asm.CLC(),
         asm.ADC(field.LongCall.ARG_ADDRESS, asm.DIR),
-        asm.BCS("MAXIMUM"),
-        asm.BRA("STORE"),
+        asm.CMP(128, asm.IMM8),
+        # asm.BCS("MAXIMUM"),
+        asm.BCC("STORE"),
 
         "MAXIMUM",
-        asm.LDA(255, asm.IMM8),
+        asm.LDA(128, asm.IMM8),
 
         "STORE",
         asm.STA(stat_address, asm.ABS_Y),
@@ -24,8 +25,8 @@ def SubStat(stat_address):
         asm.LDA(stat_address, asm.ABS_Y),
         asm.SEC(),
         asm.SBC(field.LongCall.ARG_ADDRESS, asm.DIR),
-        asm.BCC("MINIMUM"),
-        asm.BRA("STORE"),
+        # asm.BCC("MINIMUM"),
+        asm.BCS("STORE"),
 
         "MINIMUM",
         asm.LDA(0, asm.IMM8),
